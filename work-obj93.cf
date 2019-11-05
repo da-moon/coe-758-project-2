@@ -1,0 +1,7 @@
+v 4
+file . "clock_divider_tb.vhdl" "8f557d4307cc761d054c8b2da92a45707af47335" "20191105201043.473":
+  entity clock_divider_tb at 1( 0) + 0 on 13;
+  architecture testbench of clock_divider_tb at 7( 113) + 0 on 14;
+file . "clock_divider.vhd" "1e4fe5472cb44480a40774d3ff0dfdae393e3177" "20191105201043.047":
+  entity clock_divider at 1( 0) + 0 on 11;
+  architecture behavioral of clock_divider at 7( 153) + 0 on 12;
