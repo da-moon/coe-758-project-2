@@ -5,39 +5,41 @@ USE std.textio.ALL;
 ENTITY clock_divider_tb IS
 END clock_divider_tb;
 ARCHITECTURE testbench OF clock_divider_tb IS
-    SIGNAL clk : std_logic := '0';
-    CONSTANT clock_period : TIME := 80 ns;
+    SIGNAL clk_sig : std_logic := '0';
+    SIGNAL clk_out_sig : std_logic := '0';
 
     COMPONENT clock_divider
-        GENERIC (clock_period : TIME);
         PORT (
-            clk : OUT std_logic
+            clk_in : IN std_logic;
+            clk_out : OUT std_logic
         );
     END COMPONENT;
 
 BEGIN
+    clockProcess : PROCESS
+    BEGIN
+        clk_sig <= '1';
+        WAIT FOR 40 ns;
+        clk_sig <= '0';
+        WAIT FOR 40 ns;
+    END PROCESS;
     uut : clock_divider
-    GENERIC MAP(clock_period => clock_period)
     PORT MAP(
-        clk => clk
+        clk_in => clk_sig,
+        clk_out => clk_out_sig
     );
     PROCESS
-        VARIABLE time_spent : TIME := 0 ns;
 
     BEGIN
-        WAIT UNTIL rising_edge(clk);
-        time_spent := time_spent + clock_period/4;
-        IF time_spent = 20 ns THEN
-            REPORT "In half a period, 20 nano seconds passed" SEVERITY NOTE;
+        REPORT "Starting clock value of " & STD_LOGIC'IMAGE(clk_sig) SEVERITY NOTE;
+
+        WAIT UNTIL rising_edge(clk_sig);
+        WAIT UNTIL falling_edge(clk_sig);
+        WAIT FOR 1 ns;
+        IF clk_sig = NOT clk_out_sig THEN
+            REPORT "In period was successfully halved" SEVERITY NOTE;
         ELSE
-            REPORT "wrong half period value" SEVERITY FAILURE;
-        END IF;
-        WAIT UNTIL falling_edge(clk);
-        time_spent := time_spent + clock_period/4;
-        IF time_spent = 40 ns THEN
-            REPORT "In full period 40 nano seconds passed" SEVERITY NOTE;
-        ELSE
-            REPORT "wrong full period value" SEVERITY FAILURE;
+            REPORT "wrong half period value of " & STD_LOGIC'IMAGE(clk_out_sig) SEVERITY FAILURE;
         END IF;
         WAIT;
     END PROCESS;
