@@ -36,7 +36,32 @@ BEGIN
         WAIT UNTIL rising_edge(clk_sig);
         WAIT UNTIL falling_edge(clk_sig);
         WAIT FOR 1 ns;
-        IF clk_sig = NOT clk_out_sig THEN
+        IF clk_out_sig = '1' THEN
+            REPORT "In period was successfully halved" SEVERITY NOTE;
+        ELSE
+            REPORT "wrong half period value of " & STD_LOGIC'IMAGE(clk_out_sig) SEVERITY FAILURE;
+        END IF;
+
+        WAIT UNTIL rising_edge(clk_sig);
+        WAIT UNTIL falling_edge(clk_sig);
+        WAIT FOR 1 ns;
+        IF clk_out_sig = '0' THEN
+            REPORT "In period was successfully halved" SEVERITY NOTE;
+        ELSE
+            REPORT "wrong half period value of " & STD_LOGIC'IMAGE(clk_out_sig) SEVERITY FAILURE;
+        END IF;
+        WAIT UNTIL rising_edge(clk_sig);
+        WAIT UNTIL falling_edge(clk_sig);
+        WAIT FOR 1 ns;
+        IF clk_out_sig = '1' THEN
+            REPORT "In period was successfully halved" SEVERITY NOTE;
+        ELSE
+            REPORT "wrong half period value of " & STD_LOGIC'IMAGE(clk_out_sig) SEVERITY FAILURE;
+        END IF;
+        WAIT UNTIL rising_edge(clk_sig);
+        WAIT UNTIL falling_edge(clk_sig);
+        WAIT FOR 1 ns;
+        IF clk_out_sig = '0' THEN
             REPORT "In period was successfully halved" SEVERITY NOTE;
         ELSE
             REPORT "wrong half period value of " & STD_LOGIC'IMAGE(clk_out_sig) SEVERITY FAILURE;
