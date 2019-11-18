@@ -1,0 +1,6 @@
+image: ghdl/ext:latest
+checkoutLocation: "/mnt/project/"
+workspaceLocation: "/mnt/project/"
+tasks:
+  - init: >
+      /opt/ghdl/install_vsix.sh
