@@ -1,6 +1,9 @@
 image: ghdl/ext:latest
 checkoutLocation: "/mnt/project/"
 workspaceLocation: "/mnt/project/"
-tasks:
-  - init: >
-      /opt/ghdl/install_vsix.sh
+
+vscode:
+  extensions:
+    - Vinrobot.vhdl-formatter@1.0.4:A5b+zZD//U1sloUqmY0RKQ==
+    - vhdl-tool.vhdl-tool@0.0.4:+FqsCjyhkzGZq/eUWGZWLA==
+    - puorc.awesome-vhdl@0.0.1:w0lXwxIDreee5Mbtg9XSfg==

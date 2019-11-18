@@ -38,7 +38,7 @@ THIS_FILE := $(lastword $(MAKEFILE_LIST))
 # ENVIRONMENT Setting
 GHDL_IMAGE=ghdl/ext:latest
 MERMAID_IMAGE=mikoto2000/mermaid.cli
-DOCKER_ENV = true
+DOCKER_ENV = false
 CMD_ARGUMENTS ?= $(cmd)
 STARTUP_SCRIPT ?= $(startup)
 TB_OPTION= --assert-level=error
@@ -156,20 +156,20 @@ clean:
 	- $(RM) test_results
 
 
-MERMAID_FILES?=$(patsubst %.mmd,%,$(subst fixtures/mermaid/,, $(call rwildcard,fixtures/mermaid/,*.mmd)))
+# MERMAID_FILES?=$(patsubst %.mmd,%,$(subst fixtures/mermaid/,, $(call rwildcard,fixtures/mermaid/,*.mmd)))
 
-mermaid:  clean
-	- $(CLEAR)
-	- $(MKDIR) fixtures/mermaid
-    ifeq ($(DOCKER_ENV),true)
-	for target in $(MERMAID_FILES); do \
-			$(MAKE) --no-print-directory -f $(THIS_FILE) shell cmd="mmdc -p /opt/local/mermaid.cli/puppeteer-config.json -i fixtures/mermaid/$$target.mmd -o fixtures/mermaid/$$target.png" docker_image="${MERMAID_IMAGE}" container_name="mermaid_ghdl" mount_point="/home/node/data" ; \
-	done
-    else
-    ifeq ($(shell ${WHICH} mmdc 2>${DEVNUL}),)
-        $(error "mmdc (mermaid compiler) is not in your system PATH. Please run `make dep` to install dependancy ")
-    endif
-	for target in $(MERMAID_FILES); do \
-			$(MAKE) --no-print-directory -f $(THIS_FILE) shell cmd="mmdc -i fixtures/mermaid/$$target.mmd -o fixtures/mermaid/$$target.png"; \
-	done
-    endif
+# mermaid:  clean
+# 	- $(CLEAR)
+# 	- $(MKDIR) fixtures/mermaid
+#     ifeq ($(DOCKER_ENV),true)
+# 	for target in $(MERMAID_FILES); do \
+# 			$(MAKE) --no-print-directory -f $(THIS_FILE) shell cmd="mmdc -p /opt/local/mermaid.cli/puppeteer-config.json -i fixtures/mermaid/$$target.mmd -o fixtures/mermaid/$$target.png" docker_image="${MERMAID_IMAGE}" container_name="mermaid_ghdl" mount_point="/home/node/data" ; \
+# 	done
+#     else
+#     ifeq ($(shell ${WHICH} mmdc 2>${DEVNUL}),)
+#         $(error "mmdc (mermaid compiler) is not in your system PATH. Please run `make dep` to install dependancy ")
+#     endif
+# 	for target in $(MERMAID_FILES); do \
+# 			$(MAKE) --no-print-directory -f $(THIS_FILE) shell cmd="mmdc -i fixtures/mermaid/$$target.mmd -o fixtures/mermaid/$$target.png"; \
+# 	done
+#     endif
